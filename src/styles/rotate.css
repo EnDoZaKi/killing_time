@@ -1,0 +1,51 @@
+.image-cropper {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    display: inline-block;
+    left: 50%;
+    transform: translate(-50%, 10%);
+    background-color: grey;
+    border: 5px solid orange;
+
+}
+
+.image-cropper img {
+    height: 100%;
+    width: auto;
+    margin-left: -200px;
+    -webkit-animation: spin 10s linear infinite;
+    -moz-animation: spin 10s linear infinite;
+    animation: spin 10s linear infinite;
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+.text{
+    text-align: center;
+    margin-top: 80px;
+}

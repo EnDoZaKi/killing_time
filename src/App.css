@@ -1,0 +1,23 @@
+.text-center {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.money-img {
+  width: 100%;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.column {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* border: 1px solid red; */
+}
+
+.text-info {
+  margin: 10px;
+}
