@@ -3,7 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomePage from './Pages/MoneyRotate';
 import AboutPage from './Pages/AboutPage';
-// import ContactPage from './ContactPage';
+import AboutPage2 from './Pages/AboutPage2';
+import AboutPage3 from './Pages/AboutPage3';
 
 import './App.css'
 
@@ -20,7 +21,7 @@ const App = () => {
               <Link to="/about">About</Link>
             </li>
             <li  className='hidden'>
-              <Link to="/contact">Contact</Link>
+              <Link to="/cylinder">Contact</Link>
             </li>
           </ul>
         </nav>
@@ -28,6 +29,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/about2" element={<AboutPage2 />} />
+          <Route path="/about3" element={<AboutPage3 />} />
           {/* <Route path="/contact" element={<ContactPage />} /> */}
         </Routes>
       </div>

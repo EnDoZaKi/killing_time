@@ -2,35 +2,26 @@ import { useNavigate } from 'react-router-dom';
 
 import '../App.css'
 import money from '../img/IMG.jpg'
+import money2 from '../img/IMG2.jpg'
+import Image3D from '../Components/Image3D';
 
 const AboutPage = () => {
 
     const navigate = useNavigate();
 
     const handleToGo = () => {
-        navigate('/'); // Navigate to the '/about' route
+        navigate('/about2'); // Navigate to the '/about' route
     };
 
-    const Grid = ({ children, cols = 12 }) => (
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: '10px' }}>
-            {children}
-        </div>
-    );
-
-    const GridItem = ({ children, colSpan = 1 }) => (
-        <div style={{ gridColumn: `span ${colSpan}` }}>{children}</div>
-    );
-
     return (
-        <div>
+        <>
             <h1 className='text-center' onClick={handleToGo}>MONEY</h1>
-
-            <Grid cols={2}>
-                <GridItem>
-                    <img className='money-img' src={money} alt='MONEY' />
-                </GridItem>
-                <GridItem>
-                    <p className='text-info'>
+            <div className='grid-container' style={{ '--minmax': '900px' }}>
+                <div className='grid-item'>
+                    <Image3D src={money} src2={money2} />
+                </div>
+                <div className='grid-item' style={{ textAlign: "right" }}>
+                    <p>
                         MONEY<br />
                         MONEY<br />
                         MONEY<br />
@@ -39,9 +30,9 @@ const AboutPage = () => {
                         MONEY<br />
                         MONEY<br />
                     </p>
-                </GridItem>
-            </Grid>
-        </div>
+                </div>
+            </div>
+        </>
     )
 }
 

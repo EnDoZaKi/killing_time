@@ -1,0 +1,192 @@
+.scene {
+    height: 25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.cylinder {
+    width: 0;
+    height: 0;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spinY 15s linear infinite;
+}
+
+.cylinder-face {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+}
+
+.cylinder-face img {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    /* transform: translate(-50%, -50%); */
+}
+
+/* 3 faces at 120 degrees, orbiting around the center */
+.face1 {
+    transform: rotateY(0deg) translateZ(200px);
+}
+
+.face2 {
+    transform: rotateY(120deg) translateZ(200px);
+}
+
+.face3 {
+    transform: rotateY(240deg) translateZ(200px);
+}
+
+@keyframes spinY {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.container {
+    /* margin: 0px auto; */
+    /* top: 150px; */
+    width: 450px;
+    perspective: 900px;
+    position: relative;
+}
+
+#frames {
+    width: 44px;
+    transform-style: preserve-3d;
+    transform: rotateX(-10deg) rotateY(30deg) translate3d(230px, 70px, 0px);
+}
+
+.strip {
+    transform-style: preserve-3d;
+    animation: spinY 20s linear infinite;
+}
+
+.strip div {
+    position: absolute;
+    background: url('../img/IMG.jpg');
+    background-size: 100vw;
+    border: solid red;
+    border-width: thin 0;
+    height: 320px;
+    width: 60px;
+    opacity: 1;
+}
+
+.strip div:after {
+    content: '';
+    position: absolute;
+    width: 66px;
+    bottom: -40px;
+    box-shadow: 0px 20px 40px 10px blue;
+}
+
+.strip .s {
+    background-position: 1711px;
+    transform: rotateY(0deg) translateZ(200px);
+}
+.strip .s1 {
+    background-position: 1658px;
+    transform: rotateY(15deg) translateZ(200px);
+}
+.strip .s2 {
+    background-position: 1605px;
+    transform: rotateY(30deg) translateZ(200px);
+}
+.strip .s3 {
+    background-position: 1552px;
+    transform: rotateY(45deg) translateZ(200px);
+}
+.strip .s4 {
+    background-position: 1449px;
+    transform: rotateY(60deg) translateZ(200px);
+}
+.strip .s5 {
+    background-position: 1446px;
+    transform: rotateY(75deg) translateZ(200px);
+}
+.strip .s6 {
+    background-position: 1393px;
+    transform: rotateY(90deg) translateZ(200px);
+}
+.strip .s7 {
+    background-position: 1340px;
+    transform: rotateY(105deg) translateZ(200px);
+}
+.strip .s8 {
+    background-position: 1287px;
+    transform: rotateY(120deg) translateZ(200px);
+}
+.strip .s9 {
+    background-position: 1234px;
+    transform: rotateY(135deg) translateZ(200px);
+}
+.strip .s10 {
+    background-position: 1181px;
+    transform: rotateY(150deg) translateZ(200px);
+}
+.strip .s11 {
+    background-position: 1128px;
+    transform: rotateY(165deg) translateZ(200px);
+}
+.strip .s12 {
+    background-position: 1075px;
+    transform: rotateY(180deg) translateZ(200px);
+}
+.strip .s13 {
+    background-position: 1022px;
+    transform: rotateY(195deg) translateZ(200px);
+}
+.strip .s14 {
+    background-position: 969px;
+    transform: rotateY(210deg) translateZ(200px);
+}
+.strip .s15 {
+    background-position: 916px;
+    transform: rotateY(225deg) translateZ(200px);
+}
+.strip .s16 {
+    background-position: 863px;
+    transform: rotateY(240deg) translateZ(200px);
+}
+.strip .s17 {
+    background-position: 810px;
+    transform: rotateY(255deg) translateZ(200px);
+}
+.strip .s18 {
+    background-position: 757px;
+    transform: rotateY(270deg) translateZ(200px);
+}
+.strip .s19 {
+    background-position: 704px;
+    transform: rotateY(285deg) translateZ(200px);
+}
+.strip .s20 {
+    background-position: 651px;
+    transform: rotateY(300deg) translateZ(200px);
+}
+.strip .s21 {
+    background-position: 598px;
+    transform: rotateY(315deg) translateZ(200px);
+}
+.strip .s22 {
+    background-position: 545px;
+    transform: rotateY(330deg) translateZ(200px);
+}
+.strip .s23 {
+    background-position: 492px;
+    transform: rotateY(345deg) translateZ(200px);
+}
+.strip .s24 {
+    background-position: 439px;
+    transform: rotateY(360deg) translateZ(200px);
+}

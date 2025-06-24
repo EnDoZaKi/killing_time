@@ -1,0 +1,53 @@
+/* Container to set up the 3D perspective and handle hover */
+.image-container {
+  perspective: 1000px;
+  width: 100%;
+  height: 100%;
+}
+
+/* This is the element that will actually flip and run the animation */
+.flipper {
+  text-align: center;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spin-3d 20s linear infinite;
+}
+
+/* .image-container:hover .flipper {
+  animation-play-state: paused;
+} */
+
+@keyframes spin-3d {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes spin-3d-reverse {
+  from {
+    transform: rotateY(360deg);
+  }
+
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+.face {
+  backface-visibility: hidden;
+  position: absolute;
+}
+
+.face img {
+  width: 50%;
+  height: 50%;
+  border-radius: 12px;
+}
+
+.face.back {
+  transform: rotateY(180deg);
+}

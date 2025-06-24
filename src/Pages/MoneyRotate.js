@@ -13,10 +13,10 @@ const MoneyRotate = () => {
 
     return (
         <>
-            <div class="image-cropper">
+            <div className="image-cropper">
                 <img src={money} onClick={handleToGo} alt="MONEY" />
             </div>
-            <div class="text">
+            <div className="text">
                 <h1>Hollow World!</h1>
                 <p>cat spinning...</p>
             </div>
