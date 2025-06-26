@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
 import '../App.css'
-import '../styles/cylinder.css'
+import '../styles/circle.css'
 import IMG1 from '../img/IMG.jpg'
+import IMG2 from '../img/IMG2.jpg'
 const AboutPage = () => {
 
     const navigate = useNavigate();
@@ -17,8 +18,7 @@ const AboutPage = () => {
             <div className='grid-container' style={{ '--minmax': '900px' }}>
                 <div className='container grid-item'>
                     <div id='frames'>
-
-                        <div className='strip'>
+                        <div className='stripe'>
                             <div className='s'></div>
                             <div className='s1'></div>
                             <div className='s2'></div>
@@ -31,6 +31,8 @@ const AboutPage = () => {
                             <div className='s9'></div>
                             <div className='s10'></div>
                             <div className='s11'></div>
+                        </div>
+                        <div className='strip'>
                             <div className='s12'></div>
                             <div className='s13'></div>
                             <div className='s14'></div>
@@ -43,12 +45,12 @@ const AboutPage = () => {
                             <div className='s21'></div>
                             <div className='s22'></div>
                             <div className='s23'></div>
-                            <div className='s24'></div>
                         </div>
                     </div>
                 </div>
-                <div className='grid-item' style={{ textAlign: "right" }}>
-                    <img src={IMG1} alt='' style={{ height: "auto", width: "50%" }} />
+                <div className='grid-item' style={{ textAlign: "right", marginRight: "175px" }}>
+                    <img src={IMG1} alt='' style={{ height: "auto", width: "35%" }} /><br/>
+                    <img src={IMG2} alt='' style={{ height: "auto", width: "35%" }} />
                 </div>
             </div>
         </>
