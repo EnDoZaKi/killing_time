@@ -49,8 +49,27 @@ const AboutPage = () => {
                     </div>
                 </div>
                 <div className='grid-item' style={{ textAlign: "right", marginRight: "175px" }}>
-                    <img src={IMG1} alt='' style={{ height: "auto", width: "35%" }} /><br/>
-                    <img src={IMG2} alt='' style={{ height: "auto", width: "35%" }} />
+                    <img src={IMG1} alt='' style={{ height: "auto", width: "35%" }} /><br />
+                    <img src={IMG2} alt='' style={{ height: "auto", width: "35%" }} /><br />
+                    <div className='container'>
+                        <div id="t-frames">
+                            <div className='t-stripe'>
+                                <div className='s'>0</div>
+                                <div className='s1'>1</div>
+                                <div className='s2'>2</div>
+                                <div className='s3'>3</div>
+                                <div className='s4'>4</div>
+                                <div className='s5'>5</div>
+                                <div className='s6'>6</div>
+                                <div className='s7'>7</div>
+                                <div className='s8'>8</div>
+                                <div className='s9'>9</div>
+                                <div className='s10'>10</div>
+                                <div className='s11'>11</div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </>

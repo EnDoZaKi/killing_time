@@ -17,11 +17,11 @@ const AboutPage = () => {
         <>
             <h1 className='text-center' onClick={handleToGo}>MONEY</h1>
             <div className='grid-container' style={{ '--minmax': '900px' }}>
-                <div className='grid-item'>
+                <div className='grid-item' style={{border: "1px solid yellow"}}>
                     <Image3D src={money} src2={money2} />
                 </div>
-                <div className='grid-item' style={{ textAlign: "right" }}>
-                    <p>
+                <div className='grid-item' style={{ textAlign: "center", position: "relative" }}>
+                    <p style={{textShadow: "5px 5px 4px black", fontSize: "25px"}}>
                         MONEY<br />
                         MONEY<br />
                         MONEY<br />
