@@ -8,7 +8,7 @@ const MoneyRotate = () => {
     const navigate = useNavigate();
 
     const handleToGo = () => {
-        navigate('/about'); // Navigate to the '/about' route
+        navigate('/workspace'); // Navigate to the '/about' route
     };
 
     return (

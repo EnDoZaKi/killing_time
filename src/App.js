@@ -7,6 +7,7 @@ import AboutPage2 from './Pages/AboutPage2';
 import AboutPage3 from './Pages/AboutPage3';
 
 import './App.css'
+import WorkSpacePage from './Pages/WorkSpacePage';
 
 const App = () => {
   return (
@@ -21,7 +22,10 @@ const App = () => {
               <Link to="/about">About</Link>
             </li>
             <li  className='hidden'>
-              <Link to="/cylinder">Contact</Link>
+              <Link to="/about2">Contact</Link>
+            </li>
+            <li  className='hidden'>
+              <Link to="/workspace">WorkSpace</Link>
             </li>
           </ul>
         </nav>
@@ -32,6 +36,7 @@ const App = () => {
           <Route path="/about2" element={<AboutPage2 />} />
           <Route path="/about3" element={<AboutPage3 />} />
           {/* <Route path="/contact" element={<ContactPage />} /> */}
+          <Route path='/workspace' element={<WorkSpacePage />} />
         </Routes>
       </div>
     </Router>
