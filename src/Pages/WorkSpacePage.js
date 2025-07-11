@@ -60,6 +60,8 @@ const WorkSpacePage = () => {
     }
 
     const AddVariableModal = (props) => {
+        console.log(props);
+        
         return (
             <Modal
                 {...props}
@@ -175,7 +177,7 @@ const WorkSpacePage = () => {
                     {
                         variable_list.map((variable, index) => (
                             < Col xs lg="3" key={index} style={{ marginBottom: "10px" }}>
-                                <Button variant="danger" onClick={() => {setAddProjectShow(true), setVariable(variable)}}>{variable.variable_label}</Button>
+                                <Button variant="danger" onClick={() => { setAddVaribleShow(true); setVariable(variable); }}>{variable.variable_label}</Button>
                             </Col>
                         ))
                     }
