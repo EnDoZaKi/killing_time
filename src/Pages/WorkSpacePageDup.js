@@ -131,21 +131,39 @@ const WorkSpacePageDup = () => {
         }
 
         const AddTags = () => {
-            if (tag === "rate")
-                return (
-                    <Form.Group>
-                        <Form.Label>Rate</Form.Label>
-                    </Form.Group>
-                )
-            else if (tag === "descript")
+            if (tag === "date")
                 return (
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
+                        <Form.Group className='md-3'>
+                            <Form.Check inline label="Specify Date" type='radio'
+                                name='group2' value={"specify"} />
+                            <Form.Check inline label="Date Range" type='radio'
+                                name='group2' value={"range"} />
+                        </Form.Group>
+                    </Form.Group>
+                )
+            else if (tag === "tag")
+                return (
+                    <Form.Group>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Group>
+                            <Form.Control type="text" />
+                        </Form.Group>
                     </Form.Group>
                 )
             else return (
                 <Form.Group>
-                    <Form.Label>Tag</Form.Label>
+                    <Form.Label>Description</Form.Label>
+                    <Form.Group className='md-3'>
+                        <Form.Select aria-label="Default select example">
+                            <option value="1">Staff 1</option>
+                            <option value="2">Staff 2</option>
+                            <option value="3">Staff 3</option>
+                            <option value="4">Staff 4</option>
+                            <option value="5">Staff 5</option>
+                        </Form.Select>
+                    </Form.Group>
                 </Form.Group>
             )
         }
@@ -166,30 +184,18 @@ const WorkSpacePageDup = () => {
                     <Form>
                         <Form.Label>Variable Name</Form.Label>
                         <Form.Group className='mb-3'>
-                            <Form.Control type="text" value={props.value ? props.value.variable_label : ''} />
+                            <Form.Control type="text" />
                         </Form.Group>
                         <Form.Label>Variable Type</Form.Label>
-                        <Form.Group className="mb-3">
-                            <Form.Select aria-label="Default select example" value={props.value ? props.value.variable_type : ''}>
-                                <option value="1">VARCHAR(100)</option>
-                                <option value="2">BINARY</option>
-                                <option value="3">TEXT(1000)</option>
-                                <option value="4">INT</option>
-                                <option value="5">FLOAT</option>
-                                <option value="6">DECIMAL</option>
-                                <option value="7">BOOLEAN</option>
-                                <option value="8">DATETIME</option>
-                            </Form.Select>
-                        </Form.Group>
                         <Form.Group className='mb-3'>
                             <Form.Check inline label="A" type='radio'
-                                name='group1' value={"rate"}
+                                name='group1' value={"date"}
                                 onChange={handleRadioChange} />
                             <Form.Check inline label="B" type='radio'
-                                name='group1' value={"descript"}
+                                name='group1' value={"tag"}
                                 onChange={handleRadioChange} />
                             <Form.Check inline label="C" type='radio'
-                                name='group1' value={"tag"}
+                                name='group1' value={"staff"}
                                 onChange={handleRadioChange} />
                         </Form.Group>
 
