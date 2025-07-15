@@ -7,19 +7,24 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-import '../App.css'
+import '../styles/workspace.css'
 import variable_list from './workspace.json'
+import project_list from './project_list.json'
+
+import IMG from '../img/IMG.jpg'
 
 const WorkSpacePage = () => {
     const [addProjectShow, setAddProjectShow] = useState(false);
     const [addVaribleShow, setAddVaribleShow] = useState(false);
     const [variable, setVariable] = useState({});
+    const [project, setProject] = useState({});
+
 
     const addProjectClose = () => setAddProjectShow(false);
     const addVaribleClose = () => setAddVaribleShow(false);
 
-    // แบบนี้ป่าว
     const AddProjectModal = (props) => {
+        console.log("wasd", props);
         return (
             <Modal
                 {...props}
@@ -34,17 +39,30 @@ const WorkSpacePage = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
+                        <Form.Label>Project Name</Form.Label>
                         <Form.Group className="mb-3">
-                            <Form.Label>Project Name</Form.Label>
-                            <Form.Control type="text" />
+                            <Form.Control type="text" value={props.value ? props.value.name : ""} />
                         </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="exampleForm.ControlTextarea1"
-                        >
-                            <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
-                        </Form.Group>
+                        <h4>Variable</h4>
+                        {
+                            variable_list.map((variable, index) => (
+                                <Form.Group className='mb-3' key={index}>
+                                    <Form.Label>{variable.variable_label}</Form.Label>
+                                    {variable.variable_type === "2" ? (
+                                        <Form.Control type="number" step="1" />
+                                    ) : variable.variable_type === "3" ? (
+                                        <Form.Control as="textarea" />
+                                    ) : variable.variable_type === "4" || variable.variable_type === "5" || variable.variable_type === "6" ? (
+                                        <Form.Control type="number" />
+                                    ) : variable.variable_type === "7" ? (
+                                        <Form.Check type="checkbox" />
+                                    ) : variable.variable_type === "8" ? (
+                                        <Form.Control type="date" />
+                                    ) : <Form.Control type="text" />
+                                    }
+                                </Form.Group>
+                            ))
+                        }
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -60,8 +78,36 @@ const WorkSpacePage = () => {
     }
 
     const AddVariableModal = (props) => {
-        console.log(props);
-        
+        const [showTag, setShowTag] = useState(false);
+        const [tag, setTag] = useState("");
+
+        const handleRadioChange = (e) => {
+            const target = e.target.value
+            console.log(target);
+            setTag(target)
+            setShowTag(true)
+        }
+
+        const AddTags = (props) => {
+            if (tag === "rate")
+                return (
+                    <Form.Group>
+                        <Form.Label>Rate</Form.Label>
+                    </Form.Group>
+                )
+            else if (tag === "descript")
+                return (
+                    <Form.Group>
+                        <Form.Label>Description</Form.Label>
+                    </Form.Group>
+                )
+            else return (
+                <Form.Group>
+                    <Form.Label>Tag</Form.Label>
+                </Form.Group>
+            )
+        }
+
         return (
             <Modal
                 {...props}
@@ -76,13 +122,13 @@ const WorkSpacePage = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
+                        <Form.Label>Variable Name</Form.Label>
                         <Form.Group className='mb-3'>
-                            <Form.Label>Variable Name</Form.Label>
-                            <Form.Control type="text">{props.value.variable_name}</Form.Control>
+                            <Form.Control type="text" value={props.value ? props.value.variable_label : ''} />
                         </Form.Group>
+                        <Form.Label>Variable Type</Form.Label>
                         <Form.Group className="mb-3">
-                            <Form.Label>Variable Type</Form.Label>
-                            <Form.Select aria-label="Default select example">
+                            <Form.Select aria-label="Default select example" value={props.value ? props.value.variable_type : ''}>
                                 <option value="1">VARCHAR(100)</option>
                                 <option value="2">BINARY</option>
                                 <option value="3">TEXT(1000)</option>
@@ -93,6 +139,15 @@ const WorkSpacePage = () => {
                                 <option value="8">DATETIME</option>
                             </Form.Select>
                         </Form.Group>
+                        <Form.Group className='mb-3'>
+                            <Form.Check inline label="A" type='radio' name='group1' value={"rate"} onChange={handleRadioChange} />
+                            <Form.Check inline label="B" type='radio' name='group1' value={"descript"} onChange={handleRadioChange} />
+                            <Form.Check inline label="C" type='radio' name='group1' value={"tag"} onChange={handleRadioChange} />
+                        </Form.Group>
+
+                        {showTag && (
+                            <AddTags />
+                        )}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -112,60 +167,29 @@ const WorkSpacePage = () => {
                 <h1>Project</h1>
                 <Row style={{ borderBottom: "1px solid gray", paddingBottom: "10px" }}>
                     <Col style={{ textAlign: "right" }}>
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Add Project</Button>
-                        {/*                       onclick ใช้จริงๆคือรูปแบบนี้ () => ตามด้วยการเรียก function */}
-                        {/* เป็นการเรียกเปิด Popup ใช่ป่าว  */}
-                        {/* ช่ายยยยย ดูจากตรงนั้นได้ */}
+                        <Button variant="danger" onClick={() => { setAddProjectShow(true); setProject(); }}>Add Project</Button>
                         <AddProjectModal
+                            value={project}
                             show={addProjectShow}
                             onHide={() => setAddProjectShow(false)}
                         />
                     </Col>
                 </Row>
                 <Row style={{ paddingTop: "10px", textAlign: "center" }}>
-                    <Col xs lg="3" style={{ marginBottom: "10px" }}>
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Button variant="danger" onClick={() => setAddProjectShow(true)}>Project Name</Button>
-                    </Col>
+                    {
+                        project_list.map((project, index) => (
+                            < Col xs lg="3" key={index} style={{ marginBottom: "10px" }}>
+                                <Button variant="danger" onClick={() => { setAddProjectShow(true); setProject(project); }}>{project.name}</Button>
+                            </Col>
+                        ))
+                    }
                 </Row>
             </Container>
             <Container fluid="md">
                 <h1>Variable</h1>
                 <Row style={{ borderBottom: "1px solid gray", paddingBottom: "10px" }}>
                     <Col style={{ textAlign: "right" }}>
-                        <Button variant="danger" onClick={() => setAddVaribleShow(true)}>Add Variable</Button>
+                        <Button variant="danger" onClick={() => { setAddVaribleShow(true); setVariable() }}>Add Variable</Button>
                         <AddVariableModal
                             value={variable}
                             show={addVaribleShow}
@@ -182,7 +206,20 @@ const WorkSpacePage = () => {
                         ))
                     }
                 </Row>
-            </Container >
+            </Container>
+            <Container fluid="md" style={{ textAlign: "center", border: "1px solid red" }}>
+                <Row>
+                    <Col>
+                        <img src={IMG} alt='' style={{ width: "100px", height: "55px" }} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col onClick={() => setAddVaribleShow(true)}>
+
+                        <h3 className='custom-btn'>Add Project</h3>
+                    </Col>
+                </Row>
+            </Container>
         </>
     )
 }

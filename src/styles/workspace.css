@@ -1,0 +1,11 @@
+.custom-btn {
+    color: white;
+}
+
+.custom-btn:hover {
+    color: blue;
+    text-shadow: 2px 2px 5px red;
+    transition: 0.3s;
+    /* font-size: larger; */
+    /* background-color: white; */
+}
