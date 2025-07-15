@@ -22,11 +22,5 @@
         "variable_name": "done",
         "variable_label": "Complete",
         "variable_type": "7"
-    },
-    {
-        "id": 5,
-        "variable_name": "test",
-        "variable_label": "Test 2",
-        "variable_type": "2"
     }
 ]

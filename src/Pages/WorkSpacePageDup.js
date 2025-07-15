@@ -8,17 +8,17 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 import '../styles/workspace.css'
-import variable_list from '../json/workspace.json'
-import project_list from '../json/project_list.json'
+import variable_list from '../json/variable.json'
+import project_list from '../json/project.json'
 
 import IMG from '../img/IMG.jpg'
 import { useNavigate } from 'react-router-dom';
 
-const WorkSpacePage = () => {
+const WorkSpacePageDup = () => {
     const navigate = useNavigate();
 
     const handleToGo = () => {
-        navigate('/workspacedup'); // Navigate to the '/about' route
+        navigate('/'); // Navigate to the '/about' route
     };
 
     const [addProjectShow, setAddProjectShow] = useState(false);
@@ -213,7 +213,7 @@ const WorkSpacePage = () => {
         <>
             {/* PROJECT */}
             <Container fluid="md" style={{ height: "50vh" }}>
-                <h1 onClick={handleToGo}>Project</h1>
+                <h1 onClick={handleToGo}>Project DUPLICATE</h1>
                 <Row style={{ borderBottom: "1px solid gray", paddingBottom: "10px" }}>
                     <Col style={{ textAlign: "right" }}>
                         <Button variant="danger" onClick={() => { setAddProjectShow(true); setProject({}); }}>Add Project</Button>
@@ -275,4 +275,4 @@ const WorkSpacePage = () => {
     )
 }
 
-export default WorkSpacePage;
+export default WorkSpacePageDup;

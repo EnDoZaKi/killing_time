@@ -8,25 +8,22 @@ import AboutPage3 from './Pages/AboutPage3';
 
 import './App.css'
 import WorkSpacePage from './Pages/WorkSpacePage';
+import WorkSpacePageDup from './Pages/WorkSpacePageDup';
 
 const App = () => {
+  const arr = ["/", "/about", "/about2", "/workspace", "/workspacedup"]
   return (
     <Router>
       <div>
         <nav>
           <ul>
-            <li  className='hidden'>
-              <Link to="/">Home</Link>
-            </li>
-            <li  className='hidden'>
-              <Link to="/about">About</Link>
-            </li>
-            <li  className='hidden'>
-              <Link to="/about2">Contact</Link>
-            </li>
-            <li  className='hidden'>
-              <Link to="/workspace">WorkSpace</Link>
-            </li>
+            {
+              arr.map((item) => (
+                <li className='hidden'>
+                  <Link to={item}>{item}</Link>
+                </li>
+              ))
+            }
           </ul>
         </nav>
 
@@ -37,6 +34,7 @@ const App = () => {
           <Route path="/about3" element={<AboutPage3 />} />
           {/* <Route path="/contact" element={<ContactPage />} /> */}
           <Route path='/workspace' element={<WorkSpacePage />} />
+          <Route path='/workspacedup' element={<WorkSpacePageDup />} />
         </Routes>
       </div>
     </Router>
