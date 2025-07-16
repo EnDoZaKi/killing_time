@@ -1,26 +1,26 @@
 [
     {
         "id": 1,
-        "variable_name": "budget",
-        "variable_label": "Budget",
-        "variable_type": "4"
+        "name": "date",
+        "field_type": "date",
+        "description": "specify"
     },
     {
         "id": 2,
-        "variable_name": "description",
-        "variable_label": "Description (Short)",
-        "variable_type": "3"
+        "name": "time",
+        "field_type": "date",
+        "description": "range"
     },
     {
         "id": 3,
-        "variable_name": "duration",
-        "variable_label": "Duration",
-        "variable_type": "8"
+        "name": "tag",
+        "field_type": "tag",
+        "description": "description (short)"
     },
     {
         "id": 4,
-        "variable_name": "done",
-        "variable_label": "Complete",
-        "variable_type": "7"
+        "name": "staff",
+        "field_type": "staff",
+        "description": "3"
     }
 ]

@@ -3,90 +3,66 @@
         "id": 1,
         "name": "Project A",
         "variable": [
-            {
-                "variable_name": "budget",
-                "variable_label": "Budget",
-                "variable_type": "4",
-                "value": "100"
-            },
-            {
-                "variable_name": "description",
-                "variable_label": "Description (Short)",
-                "variable_type": "3",
-                "value": "A"
-            },
-            {
-                "variable_name": "duration",
-                "variable_label": "Duration",
-                "variable_type": "8",
-                "value": "2025-07-07"
-            },
-            {
-                "variable_name": "done",
-                "variable_label": "Complete",
-                "variable_type": "7",
-                "value": "true"
-            }
+            [
+                "date",
+                true
+            ],
+            [
+                "time",
+                true
+            ],
+            [
+                "tag",
+                true
+            ],
+            [
+                "staff",
+                true
+            ]
         ]
     },
     {
         "id": 2,
         "name": "Project B",
         "variable": [
-            {
-                "variable_name": "budget",
-                "variable_label": "Budget",
-                "variable_type": "4",
-                "value": "1234"
-            },
-            {
-                "variable_name": "description",
-                "variable_label": "Description (Short)",
-                "variable_type": "3",
-                "value": "B"
-            },
-            {
-                "variable_name": "duration",
-                "variable_label": "Duration",
-                "variable_type": "8",
-                "value": "2025-07-10"
-            },
-            {
-                "variable_name": "done",
-                "variable_label": "Complete",
-                "variable_type": "7",
-                "value": "false"
-            }
+            [
+                "date",
+                false
+            ],
+            [
+                "time",
+                false
+            ],
+            [
+                "tag",
+                true
+            ],
+            [
+                "staff",
+                true
+            ]
         ]
     },
     {
         "id": 3,
         "name": "Project C",
         "variable": [
-            {
-                "variable_name": "budget",
-                "variable_label": "Budget",
-                "variable_type": "4",
-                "value": "12345"
-            },
-            {
-                "variable_name": "description",
-                "variable_label": "Description (Short)",
-                "variable_type": "3",
-                "value": "C"
-            },
-            {
-                "variable_name": "duration",
-                "variable_label": "Duration",
-                "variable_type": "8",
-                "value": "2025-07-12"
-            },
-            {
-                "variable_name": "done",
-                "variable_label": "Complete",
-                "variable_type": "7",
-                "value": "false"
-            }
+            [
+                "date",
+                true
+            ],
+            [
+                "time",
+                true
+            ],
+            [
+                "tag",
+                false
+            ],
+            [
+                "staff",
+                false
+            ]
         ]
     }
 ]

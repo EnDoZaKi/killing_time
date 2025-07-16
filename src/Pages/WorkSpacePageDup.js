@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
@@ -31,7 +31,40 @@ const WorkSpacePageDup = () => {
     const addVaribleClose = () => setAddVaribleShow(false);
 
     const AddProjectModal = (props) => {
-        console.log("wasd", props.value);
+        console.log("ProjectModal", props.value);
+
+        const [name, setName] = useState("");
+        const [fieldType, setFieldType] = useState([]);
+
+        useEffect(() => {
+            if (props.value.variable) {
+                console.log("variable::", props.value.variable);
+
+                const updated = []
+                props.value.variable.map((item, index) => (
+                    updated[index] = item
+                ))
+                setFieldType(updated)
+                setName(props.value.name)
+            } else {
+                console.log("no variable");
+                const updated = []
+                variable_list.map((variable, index) => (
+                    updated[index] = [variable.name, false]
+                ))
+                setFieldType(updated)
+            }
+        }, [props])
+
+        const handleAddFieldType = (index, checked, value) => {
+            console.log(index, checked, value);
+
+            const updated = [...fieldType]
+            if (checked) updated[index] = [value, checked]
+            else updated[index] = [value, false]
+            setFieldType(updated);
+        }
+
         return (
             <Modal
                 {...props}
@@ -48,64 +81,16 @@ const WorkSpacePageDup = () => {
                     <Form>
                         <Form.Label>Project Name</Form.Label>
                         <Form.Group className="mb-3">
-                            <Form.Control type="text" value={props.value ? props.value.name : ""} />
+                            <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                         </Form.Group>
                         <h4>Variable</h4>
-                        {
-                            props.value.variable ? (
-                                props.value.variable.map((item, index) => (
-                                    <Form.Group className='mb-3' key={index}>
-                                        {
-                                            item.variable_type !== "7" ? (
-                                                <Form.Label>{item.variable_label}</Form.Label>
-                                            ) : null
-                                        }
-                                        {
-                                            item.variable_type === "2" ? (
-                                                <Form.Control type="number" step="1"
-                                                    value={item.value ? item.value : ""} />
-                                            ) : item.variable_type === "3" ? (
-                                                <Form.Control as="textarea"
-                                                    value={item.value ? item.value : ""} />
-                                            ) : item.variable_type === "4" || item.variable_type === "5" || item.variable_type === "6" ? (
-                                                <Form.Control type="number"
-                                                    value={item.value ? item.value : ""} />
-                                            ) : item.variable_type === "7" ? (
-                                                <Form.Check type="checkbox" label={item.variable_label}
-                                                    checked={item.value ? item.value : ""} />
-                                            ) : item.variable_type === "8" ? (
-                                                <Form.Control type="date"
-                                                    value={item.value ? item.value : ""} />
-                                            ) : <Form.Control type="text"
-                                                value={item.value ? item.value : ""} />
-                                        }
-                                    </Form.Group>
-                                ))
-                            ) : (
-                                variable_list.map((variable, index) => (
-                                    <Form.Group className='mb-3' key={index}>
-                                        {
-                                            variable.variable_type !== "7" ? (
-                                                <Form.Label>{variable.variable_label}</Form.Label>
-                                            ) : null
-                                        }
-                                        {
-                                            variable.variable_type === "2" ? (
-                                                <Form.Control type="number" step="1" />
-                                            ) : variable.variable_type === "3" ? (
-                                                <Form.Control as="textarea" />
-                                            ) : variable.variable_type === "4" || variable.variable_type === "5" || variable.variable_type === "6" ? (
-                                                <Form.Control type="number" />
-                                            ) : variable.variable_type === "7" ? (
-                                                <Form.Check type="checkbox" label={variable.variable_label} />
-                                            ) : variable.variable_type === "8" ? (
-                                                <Form.Control type="date" />
-                                            ) : <Form.Control type="text" />
-                                        }
-                                    </Form.Group>
-                                ))
-                            )
-                        }
+                        <Form.Group className='mb-3'>
+                            {fieldType.map((item, index) => (
+                                <Form.Check inline type='checkbox' key={index} label={item[0]}
+                                    value={item[0]} checked={item[1]}
+                                    onChange={(e) => handleAddFieldType(index, e.target.checked, e.target.value)} />
+                            ))}
+                        </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -121,8 +106,12 @@ const WorkSpacePageDup = () => {
     }
 
     const AddVariableModal = (props) => {
+        console.log("VariableModal", props.value);
+
         const [showTag, setShowTag] = useState(false);
+        const [name, setName] = useState("");
         const [tag, setTag] = useState("");
+        const [description, setDescription] = useState("");
 
         const handleRadioChange = (e) => {
             const target = e.target.value
@@ -130,16 +119,32 @@ const WorkSpacePageDup = () => {
             setShowTag(true)
         }
 
-        const AddTags = () => {
+        useEffect(() => {
+
+            if (props.value) {
+                console.log("Variable!!!");
+
+                setShowTag(true)
+                setName(props.value.name)
+                setTag(props.value.field_type)
+                setDescription(props.value.description)
+            }
+
+
+        }, [props]);
+
+        const AddTags = (props) => {
+
+            const [descriptTag, setDescriptTag] = useState(props.value)
             if (tag === "date")
                 return (
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
                         <Form.Group className='md-3'>
-                            <Form.Check inline label="Specify Date" type='radio'
-                                name='group2' value={"specify"} />
-                            <Form.Check inline label="Date Range" type='radio'
-                                name='group2' value={"range"} />
+                            <Form.Check inline label="Specify Date" type='radio' name='group2' value={"specify"}
+                                checked={descriptTag === "specify"} onChange={(e) => setDescriptTag(e.target.value)} />
+                            <Form.Check inline label="Date Range" type='radio' name='group2' value={"range"}
+                                checked={descriptTag === "range"} onChange={(e) => setDescriptTag(e.target.value)} />
                         </Form.Group>
                     </Form.Group>
                 )
@@ -148,7 +153,7 @@ const WorkSpacePageDup = () => {
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
                         <Form.Group>
-                            <Form.Control type="text" />
+                            <Form.Control type="text" value={descriptTag} onChange={(e) => setDescriptTag(e.target.value)} />
                         </Form.Group>
                     </Form.Group>
                 )
@@ -156,7 +161,8 @@ const WorkSpacePageDup = () => {
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
                     <Form.Group className='md-3'>
-                        <Form.Select aria-label="Default select example">
+                        <Form.Select aria-label="Default select example"
+                            value={descriptTag} onChange={(e) => setDescriptTag(e.target.value)}>
                             <option value="1">Staff 1</option>
                             <option value="2">Staff 2</option>
                             <option value="3">Staff 3</option>
@@ -184,23 +190,23 @@ const WorkSpacePageDup = () => {
                     <Form>
                         <Form.Label>Variable Name</Form.Label>
                         <Form.Group className='mb-3'>
-                            <Form.Control type="text" />
+                            <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                         </Form.Group>
                         <Form.Label>Variable Type</Form.Label>
                         <Form.Group className='mb-3'>
-                            <Form.Check inline label="A" type='radio'
-                                name='group1' value={"date"}
+                            <Form.Check inline label="Date" type='radio'
+                                name='group1' value={"date"} checked={tag === "date"}
                                 onChange={handleRadioChange} />
-                            <Form.Check inline label="B" type='radio'
-                                name='group1' value={"tag"}
+                            <Form.Check inline label="Tag" type='radio'
+                                name='group1' value={"tag"} checked={tag === "tag"}
                                 onChange={handleRadioChange} />
-                            <Form.Check inline label="C" type='radio'
-                                name='group1' value={"staff"}
+                            <Form.Check inline label="Staff" type='radio'
+                                name='group1' value={"staff"} checked={tag === "staff"}
                                 onChange={handleRadioChange} />
                         </Form.Group>
 
                         {showTag && (
-                            <AddTags />
+                            <AddTags value={description} />
                         )}
                     </Form>
                 </Modal.Body>
@@ -258,7 +264,7 @@ const WorkSpacePageDup = () => {
                     {
                         variable_list.map((variable, index) => (
                             < Col xs lg="3" key={index} style={{ marginBottom: "10px" }}>
-                                <Button variant="danger" onClick={() => { setAddVaribleShow(true); setVariable(variable); }}>{variable.variable_label}</Button>
+                                <Button variant="danger" onClick={() => { setAddVaribleShow(true); setVariable(variable); }}>{variable.name}</Button>
                             </Col>
                         ))
                     }
@@ -271,8 +277,7 @@ const WorkSpacePageDup = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col onClick={() => setAddVaribleShow(true)}>
-
+                    <Col onClick={() => { setAddVaribleShow(true); setVariable() }}>
                         <h3 className='custom-btn'>Add Project</h3>
                     </Col>
                 </Row>
