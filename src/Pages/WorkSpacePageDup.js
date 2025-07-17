@@ -14,6 +14,8 @@ import project_list from '../json/project.json'
 import IMG from '../img/IMG.jpg'
 import { useNavigate } from 'react-router-dom';
 
+import { FieldTypeSubmit } from '../api/FieldTypeApi';
+
 const WorkSpacePageDup = () => {
     const navigate = useNavigate();
 
@@ -25,7 +27,6 @@ const WorkSpacePageDup = () => {
     const [addVaribleShow, setAddVaribleShow] = useState(false);
     const [variable, setVariable] = useState({});
     const [project, setProject] = useState({});
-
 
     const addProjectClose = () => setAddProjectShow(false);
     const addVaribleClose = () => setAddVaribleShow(false);
@@ -110,12 +111,11 @@ const WorkSpacePageDup = () => {
 
         const [showTag, setShowTag] = useState(false);
         const [name, setName] = useState("");
-        const [tag, setTag] = useState("");
+        const [fieldType, setFieldType] = useState("");
         const [description, setDescription] = useState("");
 
         const handleRadioChange = (e) => {
-            const target = e.target.value
-            setTag(target)
+            setFieldType(e.target.value)
             setShowTag(true)
         }
 
@@ -126,34 +126,33 @@ const WorkSpacePageDup = () => {
 
                 setShowTag(true)
                 setName(props.value.name)
-                setTag(props.value.field_type)
+                setFieldType(props.value.field_type)
                 setDescription(props.value.description)
             }
 
 
         }, [props]);
 
-        const AddTags = (props) => {
+        const AddTags = ({value, onChange}) => {
 
-            const [descriptTag, setDescriptTag] = useState(props.value)
-            if (tag === "date")
+            if (fieldType === "date")
                 return (
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
                         <Form.Group className='md-3'>
                             <Form.Check inline label="Specify Date" type='radio' name='group2' value={"specify"}
-                                checked={descriptTag === "specify"} onChange={(e) => setDescriptTag(e.target.value)} />
+                                checked={value === "specify"} onChange={(e) => onChange(e.target.value)} />
                             <Form.Check inline label="Date Range" type='radio' name='group2' value={"range"}
-                                checked={descriptTag === "range"} onChange={(e) => setDescriptTag(e.target.value)} />
+                                checked={value === "range"} onChange={(e) => onChange(e.target.value)} />
                         </Form.Group>
                     </Form.Group>
                 )
-            else if (tag === "tag")
+            else if (fieldType === "tag")
                 return (
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
                         <Form.Group>
-                            <Form.Control type="text" value={descriptTag} onChange={(e) => setDescriptTag(e.target.value)} />
+                            <Form.Control type="text" value={value} onChange={(e) => onChange(e.target.value)} />
                         </Form.Group>
                     </Form.Group>
                 )
@@ -162,7 +161,7 @@ const WorkSpacePageDup = () => {
                     <Form.Label>Description</Form.Label>
                     <Form.Group className='md-3'>
                         <Form.Select aria-label="Default select example"
-                            value={descriptTag} onChange={(e) => setDescriptTag(e.target.value)}>
+                            value={value} onChange={(e) => onChange(e.target.value)}>
                             <option value="1">Staff 1</option>
                             <option value="2">Staff 2</option>
                             <option value="3">Staff 3</option>
@@ -172,6 +171,20 @@ const WorkSpacePageDup = () => {
                     </Form.Group>
                 </Form.Group>
             )
+        }
+
+        const addVarible = () => {
+            console.log("addVariable", name, fieldType, description);
+
+            if (name && fieldType && description) {
+                const data = {
+                    "name": name,
+                    "field_type": fieldType,
+                    "description": description
+                }
+                FieldTypeSubmit(data);
+                addVaribleClose();
+            } else console.log("AddVariable no variable");
         }
 
         return (
@@ -195,18 +208,18 @@ const WorkSpacePageDup = () => {
                         <Form.Label>Variable Type</Form.Label>
                         <Form.Group className='mb-3'>
                             <Form.Check inline label="Date" type='radio'
-                                name='group1' value={"date"} checked={tag === "date"}
+                                name='group1' value={"date"} checked={fieldType === "date"}
                                 onChange={handleRadioChange} />
                             <Form.Check inline label="Tag" type='radio'
-                                name='group1' value={"tag"} checked={tag === "tag"}
+                                name='group1' value={"tag"} checked={fieldType === "tag"}
                                 onChange={handleRadioChange} />
                             <Form.Check inline label="Staff" type='radio'
-                                name='group1' value={"staff"} checked={tag === "staff"}
+                                name='group1' value={"staff"} checked={fieldType === "staff"}
                                 onChange={handleRadioChange} />
                         </Form.Group>
 
                         {showTag && (
-                            <AddTags value={description} />
+                            <AddTags value={description} onSave={setDescription} />
                         )}
                     </Form>
                 </Modal.Body>
@@ -214,13 +227,14 @@ const WorkSpacePageDup = () => {
                     <Button variant="secondary" onClick={addVaribleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={addVaribleClose}>
+                    <Button variant="primary" onClick={() => addVarible(name, fieldType, description)}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
             </Modal>
         );
     }
+
     return (
         <>
             {/* PROJECT */}
