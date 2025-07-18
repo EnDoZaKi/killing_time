@@ -8,8 +8,8 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 import '../styles/workspace.css'
-import variable_list from '../json/workspace.json'
-import project_list from '../json/project_list.json'
+import variable_list from '../api/json/workspace.json'
+import project_list from '../api/json/project_list.json'
 
 import IMG from '../img/IMG.jpg'
 import { useNavigate } from 'react-router-dom';

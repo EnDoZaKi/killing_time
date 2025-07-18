@@ -18,8 +18,8 @@ const App = () => {
         <nav>
           <ul>
             {
-              arr.map((item) => (
-                <li className='hidden'>
+              arr.map((item, index) => (
+                <li className='hidden' key={index}>
                   <Link to={item}>{item}</Link>
                 </li>
               ))

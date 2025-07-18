@@ -1,38 +1,18 @@
-    // Example in Node.js with Express
-    const express = require('express');
-    const fs = require('fs');
-    const app = express();
-    app.use(express.json());
+const express = require('express');
+const cors = require('cors');
+const fieldType = require('./routes/FieldTypeRouter');
+const project = require('./routes/ProjectRouter');
 
-    app.post('/api/addObject', (req, res) => {
-        const newObject = req.body;
+const app = express();
+const PORT = 3001;
 
-        fs.readFile('../json/variable.json', 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send('Error reading file');
-            }
+app.use(cors());
+app.use(express.json());
 
-            let jsonData = [];
-            try {
-                jsonData = JSON.parse(data);
-            } catch (parseError) {
-                console.warn('Existing data.json is empty or invalid, initializing as empty array.');
-                jsonData = []; // Handle empty or invalid JSON gracefully
-            }
+// Mount router
+app.use('/api/fieldtype', fieldType);
+app.use('/api/project', project)
 
-            jsonData.push(newObject);
-
-            fs.writeFile('data.json', JSON.stringify(jsonData, null, 2), (writeErr) => {
-                if (writeErr) {
-                    console.error(writeErr);
-                    return res.status(500).send('Error writing file');
-                }
-                res.status(200).json({ message: 'Object added successfully', newObject });
-            });
-        });
-    });
-
-    app.listen(3001, () => {
-        console.log('Server listening on port 3001');
-    });
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

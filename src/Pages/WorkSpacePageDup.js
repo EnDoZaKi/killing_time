@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { forwardRef, useRef, useEffect, useState, useImperativeHandle } from 'react'
 
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
@@ -8,13 +8,14 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 import '../styles/workspace.css'
-import variable_list from '../json/variable.json'
-import project_list from '../json/project.json'
+// import variable_list from '../json/variable.json'
+import project_list from '../api/json/project.json'
 
 import IMG from '../img/IMG.jpg'
 import { useNavigate } from 'react-router-dom';
 
-import { FieldTypeSubmit } from '../api/FieldTypeApi';
+import { addFieldType, getFieldTypes, deleteFieldType, updateFieldType } from '../api/APIService/FieldTypeAPI';
+import { addProject, getProjects, deleteProject, updateProject } from '../api/APIService/ProjectAPI';
 
 const WorkSpacePageDup = () => {
     const navigate = useNavigate();
@@ -26,10 +27,23 @@ const WorkSpacePageDup = () => {
     const [addProjectShow, setAddProjectShow] = useState(false);
     const [addVaribleShow, setAddVaribleShow] = useState(false);
     const [variable, setVariable] = useState({});
+    const [variables, setVariables] = useState([]);
     const [project, setProject] = useState({});
+    const [projects, setProjects] = useState([]);
 
     const addProjectClose = () => setAddProjectShow(false);
     const addVaribleClose = () => setAddVaribleShow(false);
+
+    const loadData = async () => {
+        const fieldTypes = await getFieldTypes();
+        setVariables(fieldTypes);
+        const projects = await getProjects();
+        setProjects(projects)
+    };
+
+    useEffect(() => {
+        loadData();
+    }, [])
 
     const AddProjectModal = (props) => {
         console.log("ProjectModal", props.value);
@@ -50,7 +64,7 @@ const WorkSpacePageDup = () => {
             } else {
                 console.log("no variable");
                 const updated = []
-                variable_list.map((variable, index) => (
+                variables.map((variable, index) => (
                     updated[index] = [variable.name, false]
                 ))
                 setFieldType(updated)
@@ -113,6 +127,7 @@ const WorkSpacePageDup = () => {
         const [name, setName] = useState("");
         const [fieldType, setFieldType] = useState("");
         const [description, setDescription] = useState("");
+        const addTagsRef = useRef();
 
         const handleRadioChange = (e) => {
             setFieldType(e.target.value)
@@ -133,7 +148,12 @@ const WorkSpacePageDup = () => {
 
         }, [props]);
 
-        const AddTags = ({value, onChange}) => {
+        const AddTags = forwardRef((props, ref) => {
+            const [descriptionTag, setDescriptionTag] = useState(props.value);
+
+            useImperativeHandle(ref, () => ({
+                getDescription: () => descriptionTag
+            }));
 
             if (fieldType === "date")
                 return (
@@ -141,9 +161,9 @@ const WorkSpacePageDup = () => {
                         <Form.Label>Description</Form.Label>
                         <Form.Group className='md-3'>
                             <Form.Check inline label="Specify Date" type='radio' name='group2' value={"specify"}
-                                checked={value === "specify"} onChange={(e) => onChange(e.target.value)} />
+                                checked={descriptionTag === "specify"} onChange={(e) => setDescriptionTag(e.target.value)} />
                             <Form.Check inline label="Date Range" type='radio' name='group2' value={"range"}
-                                checked={value === "range"} onChange={(e) => onChange(e.target.value)} />
+                                checked={descriptionTag === "range"} onChange={(e) => setDescriptionTag(e.target.value)} />
                         </Form.Group>
                     </Form.Group>
                 )
@@ -152,7 +172,7 @@ const WorkSpacePageDup = () => {
                     <Form.Group>
                         <Form.Label>Description</Form.Label>
                         <Form.Group>
-                            <Form.Control type="text" value={value} onChange={(e) => onChange(e.target.value)} />
+                            <Form.Control type="text" value={descriptionTag} onChange={(e) => setDescriptionTag(e.target.value)} />
                         </Form.Group>
                     </Form.Group>
                 )
@@ -161,7 +181,7 @@ const WorkSpacePageDup = () => {
                     <Form.Label>Description</Form.Label>
                     <Form.Group className='md-3'>
                         <Form.Select aria-label="Default select example"
-                            value={value} onChange={(e) => onChange(e.target.value)}>
+                            value={descriptionTag} onChange={(e) => setDescriptionTag(e.target.value)}>
                             <option value="1">Staff 1</option>
                             <option value="2">Staff 2</option>
                             <option value="3">Staff 3</option>
@@ -171,19 +191,18 @@ const WorkSpacePageDup = () => {
                     </Form.Group>
                 </Form.Group>
             )
-        }
+        });
 
-        const addVarible = () => {
-            console.log("addVariable", name, fieldType, description);
-
-            if (name && fieldType && description) {
-                const data = {
-                    "name": name,
-                    "field_type": fieldType,
-                    "description": description
-                }
-                FieldTypeSubmit(data);
-                addVaribleClose();
+        const addVarible = async () => {
+            const value = addTagsRef.current.getDescription();
+            console.log("addVariable", name, fieldType, value);
+            if (name && fieldType && value) {
+                await addFieldType({
+                    name: name,
+                    field_type: fieldType,
+                    description: value
+                });
+                // addVaribleClose();
             } else console.log("AddVariable no variable");
         }
 
@@ -219,7 +238,7 @@ const WorkSpacePageDup = () => {
                         </Form.Group>
 
                         {showTag && (
-                            <AddTags value={description} onSave={setDescription} />
+                            <AddTags value={description} ref={addTagsRef} />
                         )}
                     </Form>
                 </Modal.Body>
@@ -227,7 +246,7 @@ const WorkSpacePageDup = () => {
                     <Button variant="secondary" onClick={addVaribleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => addVarible(name, fieldType, description)}>
+                    <Button variant="primary" onClick={() => addVarible(name, fieldType)}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
@@ -243,16 +262,18 @@ const WorkSpacePageDup = () => {
                 <Row style={{ borderBottom: "1px solid gray", paddingBottom: "10px" }}>
                     <Col style={{ textAlign: "right" }}>
                         <Button variant="danger" onClick={() => { setAddProjectShow(true); setProject({}); }}>Add Project</Button>
-                        <AddProjectModal
-                            value={project}
-                            show={addProjectShow}
-                            onHide={() => setAddProjectShow(false)}
-                        />
+                        {addProjectShow && (
+                            <AddProjectModal
+                                value={project}
+                                show={addProjectShow}
+                                onHide={() => setAddProjectShow(false)}
+                            />
+                        )}
                     </Col>
                 </Row>
                 <Row style={{ paddingTop: "10px", textAlign: "center" }}>
                     {
-                        project_list.map((project, index) => (
+                        projects.map((project, index) => (
                             < Col xs lg="3" key={index} style={{ marginBottom: "10px" }}>
                                 <Button variant="danger" onClick={() => { setAddProjectShow(true); setProject(project); }}>{project.name}</Button>
                             </Col>
@@ -267,16 +288,18 @@ const WorkSpacePageDup = () => {
                 <Row style={{ borderBottom: "1px solid gray", paddingBottom: "10px" }}>
                     <Col style={{ textAlign: "right" }}>
                         <Button variant="danger" onClick={() => { setAddVaribleShow(true); setVariable() }}>Add Variable</Button>
-                        <AddVariableModal
-                            value={variable}
-                            show={addVaribleShow}
-                            onHide={() => setAddVaribleShow(false)}
-                        />
+                        {addVaribleShow && (
+                            <AddVariableModal
+                                value={variable}
+                                show={addVaribleShow}
+                                onHide={() => setAddVaribleShow(false)}
+                            />
+                        )}
                     </Col>
                 </Row>
                 <Row style={{ paddingTop: "10px", textAlign: "center", margin: "10px" }}>
                     {
-                        variable_list.map((variable, index) => (
+                        variables.map((variable, index) => (
                             < Col xs lg="3" key={index} style={{ marginBottom: "10px" }}>
                                 <Button variant="danger" onClick={() => { setAddVaribleShow(true); setVariable(variable); }}>{variable.name}</Button>
                             </Col>

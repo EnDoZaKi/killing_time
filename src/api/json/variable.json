@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "date",
+    "field_type": "date",
+    "description": "specify"
+  },
+  {
+    "id": 2,
+    "name": "time",
+    "field_type": "date",
+    "description": "range"
+  },
+  {
+    "id": 3,
+    "name": "tag",
+    "field_type": "tag",
+    "description": "description (short)"
+  },
+  {
+    "id": 4,
+    "name": "staff",
+    "field_type": "staff",
+    "description": "3"
+  },
+  {
+    "id": 5,
+    "name": "test1",
+    "field_type": "tag",
+    "description": "1111"
+  },
+  {
+    "id": 6,
+    "name": "tesss",
+    "field_type": "tag",
+    "description": "sssss"
+  }
+]
