@@ -13,11 +13,14 @@ const writeData = (data) =>
 
 // POST /api/add
 router.post("/add", (req, res) => {
-  
+
   const { name, field_type, description } = req.body;
 
   fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) return res.status(500).json({ message: 'Read error' });
+    if (err) {
+      console.error("Read error:", err);
+      return res.status(500).json({ message: 'Read error' });
+    }
 
     let jsonData = JSON.parse(data);
 
@@ -34,16 +37,14 @@ router.post("/add", (req, res) => {
 
     fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
       if (err) {
-        console.error("Write error:", err);
+        console.error("Write error:", err); // 👈 THIS LINE
         return res.status(500).json({ message: 'Write error' });
       }
 
+      console.log("Item saved:", newItem); // For checking
       res.status(201).json({ message: 'Item added successfully', item: newItem });
     });
   });
-  data.push(req.body);
-  writeData(data);
-  res.json({ message: "Item added successfully" });
 });
 
 // GET /api/list

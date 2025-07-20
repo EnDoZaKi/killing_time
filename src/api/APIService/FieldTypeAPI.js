@@ -5,19 +5,10 @@ const BASE_URL = "http://localhost:3001/api/fieldtype";
 export const addFieldType = async (item) => {
   const res = await fetch(`${BASE_URL}/add`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(item),
-  })
-    .then(async (res) => {
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.message || "Unknown error");
-      }
-      console.log("✅ Added:", json);
-    })
-    .catch((err) => {
-      console.error("❌ API error:", err.message);
-    });
+    headers: { "Content-Type": "application/json" },
+  });
+  return res.json();
 };
 
 // Get all items
