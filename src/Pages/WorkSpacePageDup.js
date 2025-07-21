@@ -61,6 +61,7 @@ const WorkSpacePageDup = () => {
                                 show={addProjectShow}
                                 variables={variables}
                                 onHide={() => setAddProjectShow(false)}
+                                onAdded={handleVariableAdded}
                             />
                         )}
                     </Col>

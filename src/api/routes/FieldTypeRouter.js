@@ -55,19 +55,27 @@ router.get("/list", (req, res) => {
 
 // DELETE /api/delete/:id
 router.delete("/delete/:id", (req, res) => {
+  const id = parseInt(req.params.id);
   const data = readData();
-  const filtered = data.filter((item) => item.id !== req.params.id);
+  const filtered = data.filter((item) => item.id !== id);
+  console.log(filtered);
+  
   writeData(filtered);
   res.json({ message: "Item deleted" });
 });
 
 // PUT /api/update/:id
 router.put("/update/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const { name, field_type, description } = req.body;
+
   const data = readData();
-  const updated = data.map((item) =>
-    item.id === req.params.id ? { ...item, ...req.body } : item
-  );
-  writeData(updated);
+  const index = data.findIndex((item) => item.id === id);
+  if (index !== -1) {
+    data[index] = { id, name, field_type, description };
+  }
+
+  writeData(data);
   res.json({ message: "Item updated" });
 });
 

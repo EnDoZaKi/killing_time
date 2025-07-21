@@ -1,26 +1,30 @@
-import React, { forwardRef, useRef, useEffect, useState, useImperativeHandle } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-import { addProject, getProjects, deleteProject, updateProject } from '../../api/APIService/ProjectAPI'
+import { addProject, deleteProject, updateProject } from '../../api/APIService/ProjectAPI'
 
 const AddProjectModal = (props) => {
-    console.log("ProjectModal", props.value);
 
     const [name, setName] = useState("");
     const [fieldType, setFieldType] = useState([]);
 
+    const [alert, setAlert] = useState(false);
+    const [alertAt, setAlertAt] = useState("");
+
     useEffect(() => {
         if (props.value.variable) {
-            console.log("variable::", props.value.variable);
+            // console.log("variable::", props.value.variable);
 
-            const updated = []
-            props.value.variable.map((item, index) => (
-                updated[index] = item
-            ))
-            setFieldType(updated)
+            const variableMap = new Map(props.value.variable);
+            // Create the new array
+            const result = props.variables.map(item => {
+                const value = variableMap.has(item.name) ? variableMap.get(item.name) : false;
+                return [item.name, value];
+            });
+            setFieldType(result)
             setName(props.value.name)
         } else {
             console.log("no variable");
@@ -33,12 +37,83 @@ const AddProjectModal = (props) => {
     }, [props])
 
     const handleAddFieldType = (index, checked, value) => {
-        console.log(index, checked, value);
+        // console.log(index, checked, value);
 
         const updated = [...fieldType]
         if (checked) updated[index] = [value, checked]
         else updated[index] = [value, false]
         setFieldType(updated);
+    }
+
+    const addNewProject = async () => {
+        console.log(name, fieldType);
+        if (name !== "" && fieldType) {
+            await addProject({
+                name: name,
+                variable: fieldType
+            })
+
+            props.onAdded();
+        } else {
+            setAlert(true);
+            setAlertAt("");
+        }
+    }
+
+    const updateThisProject = async () => {
+        const id = props.value.id
+        console.log("updateVariable", id, name, fieldType);
+        if (name !== "" && fieldType) {
+            await updateProject(id, {
+                name: name,
+                variable: fieldType
+            });
+
+            props.onAdded();
+
+        } else console.log("can't updateVarible", id);
+    }
+
+    const deleteThisProject = async () => {
+        const id = props.value.id
+        if (id) {
+            await deleteProject(id);
+            props.onAdded();
+
+        } else console.log("can't deleteVariable", id);
+    }
+
+    const AlertModal = (props) => {
+        const [body, setBody] = useState("")
+        useEffect(() => {
+            if (props.alertAt === "edit") setBody("Are you sure to update?")
+            else if (props.alertAt === "delete") setBody("Are you sure to delete?")
+            else setBody("You aren't completely any field yet.")
+        }, [props.alertAt])
+
+        return (
+            <Modal
+                show={props.show}
+                onHide={() => setAlert(false)}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Alert</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{body}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={props.onHide}>
+                        Close
+                    </Button>
+                    {props.alertAt === "edit" ? (
+                        <Button variant="success" onClick={() => updateThisProject()}>Edit</Button>
+                    ) : props.alertAt === "delete" ? (
+                        <Button variant="danger" onClick={() => deleteThisProject()}>Delete</Button>
+                    ) : null}
+                </Modal.Footer>
+            </Modal>
+        )
     }
 
     return (
@@ -73,9 +148,27 @@ const AddProjectModal = (props) => {
                 <Button variant="secondary" onClick={props.onHide}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={props.onHide}>
-                    Save Changes
-                </Button>
+                {props.value.variable ? (
+                    <>
+                        <Button variant="danger" onClick={() => { setAlert(true); setAlertAt("delete"); }}>
+                            Delete
+                        </Button>
+                        <Button variant="success" onClick={() => { setAlert(true); setAlertAt("edit"); }}>
+                            Edit
+                        </Button>
+                    </>
+                ) : (
+                    <Button variant="success" onClick={() => addNewProject()}>
+                        Save
+                    </Button>
+                )}
+                {alert && (
+                    <AlertModal
+                        show={alert}
+                        alertAt={alertAt}
+                        onHide={() => setAlert(false)}
+                    />
+                )}
             </Modal.Footer>
         </Modal>
     );

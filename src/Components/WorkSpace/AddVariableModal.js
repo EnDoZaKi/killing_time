@@ -27,14 +27,6 @@ const AddVariableModal = (props) => {
             setDescription(props.value.description)
         }
     }, [props]);
-    
-    useEffect(() =>{
-        if (!props.value) {
-            if (fieldType === "date") setDescription("specify")
-            else if (fieldType === "tag") setDescription("")
-            else if (fieldType === "staff") setDescription("1")
-        }
-    },[description])
 
     const handleRadioChange = (e) => {
         setFieldType(e.target.value)
@@ -59,13 +51,14 @@ const AddVariableModal = (props) => {
 
     const updateVarible = async () => {
         const id = props.value.id
-        console.log("addVariable", name, fieldType, description);
+        console.log("updateVariable", id, name, fieldType, description);
         if (name !== "" && fieldType !== "" && description !== "") {
             await updateFieldType(id, {
                 name: name,
                 field_type: fieldType,
                 description: description
             });
+            
             props.onAdded();
 
         } else console.log("can't updateVarible", id);

@@ -13,10 +13,36 @@ const writeData = (data) =>
 
 // POST /api/add
 router.post("/add", (req, res) => {
-  const data = readData();
-  data.push(req.body);
-  writeData(data);
-  res.json({ message: "Item added successfully" });
+  const { name, variable } = req.body;
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error("Read error:", err);
+      return res.status(500).json({ message: 'Read error' });
+    }
+
+    let jsonData = JSON.parse(data);
+
+    // 🔢 Get max existing ID and increment
+    const maxId = jsonData.reduce((max, item) => Math.max(max, item.id || 0), 0);
+    const newItem = {
+      id: maxId + 1,
+      name,
+      variable
+    };
+
+    jsonData.push(newItem);
+
+    fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
+      if (err) {
+        console.error("Write error:", err); // 👈 THIS LINE
+        return res.status(500).json({ message: 'Write error' });
+      }
+
+      console.log("Item saved:", newItem); // For checking
+      res.status(201).json({ message: 'Item added successfully', item: newItem });
+    });
+  });
 });
 
 // GET /api/list
@@ -27,19 +53,27 @@ router.get("/list", (req, res) => {
 
 // DELETE /api/delete/:id
 router.delete("/delete/:id", (req, res) => {
+  const id = parseInt(req.params.id);
   const data = readData();
-  const filtered = data.filter((item) => item.id !== req.params.id);
+  const filtered = data.filter((item) => item.id !== id);
+  console.log(filtered);
+
   writeData(filtered);
   res.json({ message: "Item deleted" });
 });
 
 // PUT /api/update/:id
 router.put("/update/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const { name, variable } = req.body;
+
   const data = readData();
-  const updated = data.map((item) =>
-    item.id === req.params.id ? { ...item, ...req.body } : item
-  );
-  writeData(updated);
+  const index = data.findIndex((item) => item.id === id);
+  if (index !== -1) {
+    data[index] = { id, name, variable };
+  }
+
+  writeData(data);
   res.json({ message: "Item updated" });
 });
 
