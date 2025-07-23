@@ -11,7 +11,9 @@ const AddVariableModal = (props) => {
     const [showTag, setShowTag] = useState(false);
     const [name, setName] = useState("");
     const [fieldType, setFieldType] = useState("");
-    const [description, setDescription] = useState("");
+    const [descriptionDate, setDescriptionDate] = useState("specify");
+    const [descriptionTag, setDescriptionTag] = useState("");
+    const [descriptionStaff, setDescriptionStaff] = useState("1");
 
     const [alert, setAlert] = useState(false);
     const [alertAt, setAlertAt] = useState("");
@@ -24,7 +26,17 @@ const AddVariableModal = (props) => {
             setShowTag(true)
             setName(props.value.name)
             setFieldType(props.value.field_type)
-            setDescription(props.value.description)
+            switch (props.value.field_type) {
+                case 'date':
+                    return setDescriptionDate(props.value.description);
+                case 'tag':
+                    return setDescriptionTag(props.value.description);
+                case 'staff':
+                    return setDescriptionStaff(props.value.description);
+                default:
+                    return
+            }
+            // setDescription(props.value.description)
         }
     }, [props]);
 
@@ -34,6 +46,11 @@ const AddVariableModal = (props) => {
     }
 
     const addVarible = async () => {
+        let description = ""
+        if (fieldType === "date") description = descriptionDate
+        else if (fieldType === "tag") description = descriptionTag
+        else if (fieldType === "staff") description = descriptionStaff
+
         console.log("addVariable name:", name, "field type:", fieldType, "value:", description);
         if (name !== "" && fieldType !== "" && description !== "") {
             await addFieldType({
@@ -51,6 +68,11 @@ const AddVariableModal = (props) => {
 
     const updateVarible = async () => {
         const id = props.value.id
+        let description = ""
+        if (fieldType === "date") description = descriptionDate
+        else if (fieldType === "tag") description = descriptionTag
+        else if (fieldType === "staff") description = descriptionStaff
+
         console.log("updateVariable", id, name, fieldType, description);
         if (name !== "" && fieldType !== "" && description !== "") {
             await updateFieldType(id, {
@@ -58,7 +80,7 @@ const AddVariableModal = (props) => {
                 field_type: fieldType,
                 description: description
             });
-            
+
             props.onAdded();
 
         } else console.log("can't updateVarible", id);
@@ -143,16 +165,16 @@ const AddVariableModal = (props) => {
                                 <Form.Label>Description</Form.Label>
                                 <Form.Group className='md-3'>
                                     <Form.Check inline label="Specify Date" type='radio' name='group2' value={"specify"}
-                                        checked={description === "specify"} onChange={(e) => setDescription(e.target.value)} />
+                                        checked={descriptionDate === "specify"} onChange={(e) => setDescriptionDate(e.target.value)} />
                                     <Form.Check inline label="Date Range" type='radio' name='group2' value={"range"}
-                                        checked={description === "range"} onChange={(e) => setDescription(e.target.value)} />
+                                        checked={descriptionDate === "range"} onChange={(e) => setDescriptionDate(e.target.value)} />
                                 </Form.Group>
                             </Form.Group>
                         ) : fieldType === "tag" ? (
                             <Form.Group>
                                 <Form.Label>Description</Form.Label>
                                 <Form.Group>
-                                    <Form.Control type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+                                    <Form.Control type="text" value={descriptionTag} onChange={(e) => setDescriptionTag(e.target.value)} />
                                 </Form.Group>
                             </Form.Group>
                         ) : fieldType === "staff" ? (
@@ -160,7 +182,7 @@ const AddVariableModal = (props) => {
                                 <Form.Label>Description</Form.Label>
                                 <Form.Group className='md-3'>
                                     <Form.Select aria-label="Default select example"
-                                        value={description} onChange={(e) => setDescription(e.target.value)}>
+                                        value={descriptionStaff} onChange={(e) => setDescriptionStaff(e.target.value)}>
                                         <option value="1">Staff 1</option>
                                         <option value="2">Staff 2</option>
                                         <option value="3">Staff 3</option>
