@@ -27,6 +27,17 @@ export const deleteFieldType = async (id) => {
   return res.json();
 };
 
+// Delete item (optional: based on `id`)
+export const deleteFieldTypes = async (deletedData) => {
+  const res = await fetch(`${BASE_URL}/delete`, {
+    method: "DELETE",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(deletedData.data)
+  });
+  if (!res.ok) throw new Error("Failed to delete item");
+  return res.json();
+};
+
 // Update item (optional)
 export const updateFieldType = async (id, updatedData) => {
   const res = await fetch(`${BASE_URL}/update/${id}`, {

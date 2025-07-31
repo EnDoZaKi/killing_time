@@ -16,17 +16,5 @@
     "name": "tag",
     "field_type": "tag",
     "description": "description (short) MONEY"
-  },
-  {
-    "id": 4,
-    "name": "staff",
-    "field_type": "staff",
-    "description": "3"
-  },
-  {
-    "id": 5,
-    "name": "Test",
-    "field_type": "tag",
-    "description": "ssssss"
   }
 ]

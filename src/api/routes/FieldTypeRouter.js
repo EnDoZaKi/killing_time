@@ -59,9 +59,22 @@ router.delete("/delete/:id", (req, res) => {
   const data = readData();
   const filtered = data.filter((item) => item.id !== id);
   console.log(filtered);
-  
+
   writeData(filtered);
   res.json({ message: "Item deleted" });
+});
+
+// DELETE /api/delete อันนี้ๆๆๆๆๆๆๆ
+router.delete("/delete", (req, res) => {
+  const deletedData = req.body
+  const idsToDelete = deletedData.map(item => item.id);
+
+  const data = readData();
+  const filtered = data.filter(item => !idsToDelete.includes(item.id));
+  console.log(filtered);
+
+  writeData(filtered);
+  res.json({ message: "Items is deleted" });
 });
 
 // PUT /api/update/:id
@@ -79,4 +92,33 @@ router.put("/update/:id", (req, res) => {
   res.json({ message: "Item updated" });
 });
 
-module.exports = router;
+router.route("/delete").delete((req, res) => {
+  const lang = req.query.lang;
+  const token = req.headers["x-has-accesstoken"];
+  const data = JSON.parse(req.query.data);
+  for (let i = 0; i < data.length; i++) {
+    const sql = "DELETE FROM Field_type WHERE ?";
+    connect1.query(sql, data[i], (error, results, fields) => {
+      if (error) {
+        res.json({
+          status: "error",
+          msg: message({ lang: lang, id: "", sql_err: error }),
+          dataRes: "",
+        });
+        i = data.length;
+        throw error;
+      } else {
+        if (i + 1 == data.length)
+          setTimeout(
+            () =>
+              res.json({
+                status: "success",
+                msg: message({ lang: lang, id: 105, sql_err: "" }),
+                dataRes: "",
+              }),
+            500
+          );
+      }
+    });
+  }
+});
