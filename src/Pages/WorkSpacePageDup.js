@@ -8,11 +8,11 @@ import Form from 'react-bootstrap/Form';
 
 import '../styles/workspace.css'
 
-import IMG from '../img/IMG.jpg'
 import { useNavigate } from 'react-router-dom';
 
 import AddProjectModal from '../Components/WorkSpace/AddProjectModal';
 import AddVariableModal from '../Components/WorkSpace/AddVariableModal';
+import AddTags from '../Components/WorkSpace/AddTags';
 
 import { getProjects } from '../api/APIService/ProjectAPI';
 import { getFieldTypes, deleteFieldTypes } from '../api/APIService/FieldTypeAPI';
@@ -70,9 +70,9 @@ const WorkSpacePageDup = () => {
             const res = await deleteFieldTypes({
                 data: deleteData
             });
-            console.log("res:",res);
+            console.log("res:", res);
             await handleVariableAdded();
-            
+
         } catch (err) {
             console.error("Error fetching data:", err);
         }
@@ -150,7 +150,7 @@ const WorkSpacePageDup = () => {
                     }
                 </Row>
             </Container>
-            <Container fluid="md" style={{ textAlign: "center", border: "1px solid red" }}>
+            {/* <Container fluid="md" style={{ textAlign: "center", border: "1px solid red" }}>
                 <Row>
                     <Col>
                         <img src={IMG} alt='' style={{ width: "100px", height: "55px" }} />
@@ -161,7 +161,8 @@ const WorkSpacePageDup = () => {
                         <h3 className='custom-btn'>Refresh</h3>
                     </Col>
                 </Row>
-            </Container>
+            </Container> */}
+            <AddTags />
         </>
     )
 }
