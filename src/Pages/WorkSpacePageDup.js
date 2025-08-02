@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 
 import AddProjectModal from '../Components/WorkSpace/AddProjectModal';
 import AddVariableModal from '../Components/WorkSpace/AddVariableModal';
-import AddTags from '../Components/WorkSpace/AddTags';
 
 import { getProjects } from '../api/APIService/ProjectAPI';
 import { getFieldTypes, deleteFieldTypes } from '../api/APIService/FieldTypeAPI';
@@ -162,7 +161,6 @@ const WorkSpacePageDup = () => {
                     </Col>
                 </Row>
             </Container> */}
-            <AddTags />
         </>
     )
 }

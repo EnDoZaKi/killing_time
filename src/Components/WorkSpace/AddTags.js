@@ -1,19 +1,24 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
-const AddTags = () => {
+const AddTags = (props) => {
     const [inputValue, setInputValue] = useState('');
-    const [tagList, setTagList] = useState([]);
+    const [tagList, setTagList] = useState(props.value);
 
     const onSaveChange = (e) => {
         if (e.key === 'Enter') {
             setTagList(prev => [...prev, e.target.value]);
             setInputValue('');
         }
+    }
+
+    const onClickClose = (value) => {
+        const updatedTag = tagList.filter(item => item !== value);
+        setTagList(updatedTag)
     }
 
     const TruncatedText = ({ text, className }) => {
@@ -79,31 +84,28 @@ const AddTags = () => {
             </div>
         );
     };
+
     return (
         <>
             <Container fluid="md">
                 <Row>
-                    <Col xs={12} md={6}>
-                        <Container fluid="md">
-                            <Row>
-                                {tagList && (
-                                    tagList.map((tag, index) => (
-                                        <Col sm="2" key={index} style={{ backgroundColor: "grey", border: "1px solid grey", borderRadius: "10px", color: "black", margin: "0px 10px 10px 10px" }}>
-                                            <Row>
-                                                <Col><TruncatedText text={tag} /></Col>
-                                                <Col style={{ textAlign: "right" }}>x</Col>
-                                            </Row>
-                                        </Col>
-                                    ))
-                                )}
-                            </Row>
-                        </Container >
-                    </Col>
+                    {tagList && (
+                        tagList.map((tag, index) => (
+                            <Col sm="2" key={index} style={{ backgroundColor: "grey", border: "1px solid grey", borderRadius: "10px", color: "black", margin: "0px 10px 10px 10px" }}>
+                                <Row>
+                                    <Col><TruncatedText text={tag} /></Col>
+                                    <Col style={{ textAlign: "right" }} className='custom-close' onClick={() => onClickClose(tag)}>x</Col>
+                                </Row>
+                            </Col>
+                        ))
+                    )}
                 </Row>
+
                 <Row>
-                    <Col sm="6">
+                    <Col>
                         <Form.Group className="mb-3">
-                            <Form.Control type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={onSaveChange} />
+                            <Form.Control type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={onSaveChange}
+                                onFocus={e => console.log('onFocus')} />
                         </Form.Group>
                     </Col>
                 </Row>

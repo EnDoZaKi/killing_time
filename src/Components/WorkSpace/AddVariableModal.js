@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import AddTags from './AddTags';
 
 import { addFieldType, deleteFieldType, updateFieldType } from '../../api/APIService/FieldTypeAPI';
 
@@ -173,22 +174,20 @@ const AddVariableModal = (props) => {
                         ) : fieldType === "tag" ? (
                             <Form.Group>
                                 <Form.Label>Description</Form.Label>
-                                <Form.Group>
-                                    <Form.Control type="text" value={descriptionTag} onChange={(e) => setDescriptionTag(e.target.value)} />
-                                </Form.Group>
+                                <AddTags value={descriptionTag} />
                             </Form.Group>
                         ) : fieldType === "staff" ? (
                             <Form.Group>
                                 <Form.Label>Description</Form.Label>
                                 <Form.Group className='md-3'>
-                                    <Form.Select aria-label="Default select example"
+                                    <Form.Control as="select"
                                         value={descriptionStaff} onChange={(e) => setDescriptionStaff(e.target.value)}>
                                         <option value="1">Staff 1</option>
                                         <option value="2">Staff 2</option>
                                         <option value="3">Staff 3</option>
                                         <option value="4">Staff 4</option>
                                         <option value="5">Staff 5</option>
-                                    </Form.Select>
+                                    </Form.Control>
                                 </Form.Group>
                             </Form.Group>
                         ) : null
