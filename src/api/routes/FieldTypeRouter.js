@@ -61,7 +61,7 @@ router.delete("/delete/:id", (req, res) => {
   console.log(filtered);
 
   writeData(filtered);
-  res.json({ message: "Item deleted" });
+  res.json({ message: "Item is deleted" });
 });
 
 router.delete("/delete", (req, res) => {
@@ -73,7 +73,7 @@ router.delete("/delete", (req, res) => {
   console.log(filtered);
 
   writeData(filtered);
-  res.json({ message: "Items is deleted" });
+  res.json({ message: "List of Items gone.." });
 });
 
 // PUT /api/update/:id

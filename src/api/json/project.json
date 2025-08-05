@@ -3,70 +3,63 @@
     "id": 1,
     "name": "Project A",
     "variable": [
-      [
-        "date",
-        true
-      ],
-      [
-        "time",
-        true
-      ],
-      [
-        "tag",
-        true
-      ],
-      [
-        "staff",
-        true
-      ],
-      [
-        "Test",
-        false
-      ]
+      {
+        "id": 1,
+        "name": "date",
+        "checked": true
+      },
+      {
+        "id": 2,
+        "name": "time",
+        "checked": false
+      },
+      {
+        "id": 3,
+        "name": "tag",
+        "checked": false
+      }
     ]
   },
   {
     "id": 2,
     "name": "Project B",
     "variable": [
-      [
-        "date",
-        false
-      ],
-      [
-        "time",
-        false
-      ],
-      [
-        "tag",
-        true
-      ],
-      [
-        "staff",
-        true
-      ]
+      {
+        "id": 1,
+        "name": "date",
+        "checked": false
+      },
+      {
+        "id": 2,
+        "name": "time",
+        "checked": true
+      },
+      {
+        "id": 3,
+        "name": "tag",
+        "checked": true
+      }
     ]
   },
   {
     "id": 3,
     "name": "Project C",
     "variable": [
-      [
-        "date",
-        true
-      ],
-      [
-        "time",
-        true
-      ],
-      [
-        "tag",
-        false
-      ],
-      [
-        "staff",
-        false
-      ]
+      {
+        "id": 1,
+        "name": "date",
+        "checked": true
+      },
+      {
+        "id": 2,
+        "name": "time",
+        "checked": true
+      },
+      {
+        "id": 3,
+        "name": "tag",
+        "checked": true
+      }
     ]
   }
 ]

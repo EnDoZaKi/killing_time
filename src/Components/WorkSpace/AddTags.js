@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -91,7 +91,8 @@ const AddTags = (props) => {
                 <Row>
                     {tagList && (
                         tagList.map((tag, index) => (
-                            <Col sm="2" key={index} style={{ backgroundColor: "grey", border: "1px solid grey", borderRadius: "10px", color: "black", margin: "0px 10px 10px 10px" }}>
+                            <Col sm="2" key={index}
+                                style={{ backgroundColor: "grey", border: "1px solid grey", borderRadius: "10px", color: "black", margin: "0px 10px 10px 10px" }}>
                                 <Row>
                                     <Col><TruncatedText text={tag} /></Col>
                                     <Col style={{ textAlign: "right" }} className='custom-close' onClick={() => onClickClose(tag)}>x</Col>
@@ -104,8 +105,7 @@ const AddTags = (props) => {
                 <Row>
                     <Col>
                         <Form.Group className="mb-3">
-                            <Form.Control type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={onSaveChange}
-                                onFocus={e => console.log('onFocus')} />
+                            <Form.Control type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={onSaveChange} />
                         </Form.Group>
                     </Col>
                 </Row>

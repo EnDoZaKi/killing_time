@@ -18,35 +18,60 @@ const AddProjectModal = (props) => {
         if (props.value.variable) {
             // console.log("variable::", props.value.variable);
 
-            const variableMap = new Map(props.value.variable);
+            // const variableMap = new Map(props.value.variable);
+            const variable = props.value.variable;
             // Create the new array
             const result = props.variables.map(item => {
-                const value = variableMap.has(item.name) ? variableMap.get(item.name) : false;
-                return [item.name, value];
+
+                const value = variable.some(obj => obj.name === item.name) ? variable.find(obj => obj.name === item.name) : {
+                    "id": item.id,
+                    "name": item.name,
+                    "checked": false
+                };
+
+                return {
+                    "id": value.id,
+                    "name": value.name,
+                    "checked": value.checked
+                };
             });
+            // console.log(result);
+
             setFieldType(result)
             setName(props.value.name)
         } else {
             console.log("no variable");
             const updated = []
             props.variables.map((variable, index) => (
-                updated[index] = [variable.name, false]
+                updated[index] = {
+                    "id": variable.id,
+                    "name": variable.name,
+                    "checked": false
+                }
             ))
             setFieldType(updated)
         }
     }, [props])
 
     const handleAddFieldType = (index, checked, value) => {
-        // console.log(index, checked, value);
+        console.log(index, checked, value);
 
         const updated = [...fieldType]
-        if (checked) updated[index] = [value, checked]
-        else updated[index] = [value, false]
+        if (checked) updated[index] = {
+            "id": value.id,
+            "name": value.name,
+            "checked": checked
+        }
+        else updated[index] = {
+            "id": value,
+            "name": value.name,
+            "checked": false
+        }
         setFieldType(updated);
     }
 
     const addNewProject = async () => {
-        console.log(name, fieldType);
+        // console.log(name, fieldType);
         if (name !== "" && fieldType) {
             await addProject({
                 name: name,
@@ -137,9 +162,9 @@ const AddProjectModal = (props) => {
                     <h4>Variable</h4>
                     <Form.Group className='mb-3'>
                         {fieldType.map((item, index) => (
-                            <Form.Check inline type='checkbox' key={index} label={item[0]}
-                                value={item[0]} checked={item[1]}
-                                onChange={(e) => handleAddFieldType(index, e.target.checked, e.target.value)} />
+                            <Form.Check inline type='checkbox' key={index} label={item.name}
+                                value={item} checked={item.checked}
+                                onChange={(e) => handleAddFieldType(index, e.target.checked, item)} />
                         ))}
                     </Form.Group>
                 </Form>

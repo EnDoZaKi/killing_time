@@ -132,10 +132,10 @@ const WorkSpacePageDup = () => {
                     {
                         variables.map((variable, index) => (
                             < Col xs lg="4" key={index} style={{ marginBottom: "10px" }}>
-                                <div variant="danger"
-                                    style={{ backgroundColor: "grey", border: "1px solid grey", borderRadius: "10px", color: "black", padding: "10px",
-                                        display: "flex", alignItems: "center", justifyContent: "space-between"
-                                     }}
+                                <div style={{
+                                    backgroundColor: "grey", border: "1px solid grey", borderRadius: "10px", color: "black", padding: "10px",
+                                    display: "flex", alignItems: "center", justifyContent: "space-between"
+                                }}
                                     onClick={() => { setAddVaribleShow(true); setVariable(variable); }}>
                                     <Form.Label>{variable.name}</Form.Label>
                                     <Form.Check type='checkbox'
