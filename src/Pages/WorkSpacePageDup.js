@@ -50,6 +50,10 @@ const WorkSpacePageDup = () => {
     const [showDelBtn, setShowDelBtn] = useState(false);
     const [deleteData, setDeleteData] = useState([]); // ค่านี้ๆ
 
+    useEffect(() => {      
+        if (deleteData.length != 0) setShowDelBtn(true);
+        else setShowDelBtn(false);
+    }, [deleteData])
     // ฟังค์ชันที่เก็บค่าของ deleteData
     const onChangeDeleteCheckBox = (checked, value) => {
         console.log("DeleteCheckBox", checked, typeof (value));
@@ -58,7 +62,6 @@ const WorkSpacePageDup = () => {
             setDeleteData(prev => [...prev, value]);
         } else {
             setDeleteData(prev => prev.filter(data => data !== value));
-            if (deleteData) setShowDelBtn(false);
         }
     }
     // แล้วเอาค่านี้แหละ ไปใช้ต่อที่ onclickDelete
