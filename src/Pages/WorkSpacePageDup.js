@@ -51,7 +51,7 @@ const WorkSpacePageDup = () => {
     const [deleteData, setDeleteData] = useState([]); // ค่านี้ๆ
 
     useEffect(() => {      
-        if (deleteData.length != 0) setShowDelBtn(true);
+        if (deleteData.length !== 0) setShowDelBtn(true);
         else setShowDelBtn(false);
     }, [deleteData])
     // ฟังค์ชันที่เก็บค่าของ deleteData

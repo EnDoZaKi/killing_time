@@ -17,8 +17,6 @@ const AddProjectModal = (props) => {
     useEffect(() => {
         if (props.value.variable) {
             // console.log("variable::", props.value.variable);
-
-            // const variableMap = new Map(props.value.variable);
             const variable = props.value.variable;
             // Create the new array
             const result = props.variables.map(item => {
@@ -35,7 +33,6 @@ const AddProjectModal = (props) => {
                     "checked": value.checked
                 };
             });
-            // console.log(result);
 
             setFieldType(result)
             setName(props.value.name)
