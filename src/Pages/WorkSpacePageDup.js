@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import { GoArrowLeft } from "react-icons/go";
 
 import '../styles/workspace.css'
 
@@ -19,8 +20,9 @@ import { getFieldTypes, deleteFieldTypes } from '../api/APIService/FieldTypeAPI'
 const WorkSpacePageDup = () => {
     const navigate = useNavigate();
 
-    const handleToGo = () => {
-        navigate('/'); // Navigate to the '/about' route
+    const handleToGo = (path) => {
+        if (!path) navigate('/'); // Navigate to the '/about' route
+        else navigate(`${path}`);
     };
 
     const [addProjectShow, setAddProjectShow] = useState(false);
@@ -50,7 +52,7 @@ const WorkSpacePageDup = () => {
     const [showDelBtn, setShowDelBtn] = useState(false);
     const [deleteData, setDeleteData] = useState([]); // ค่านี้ๆ
 
-    useEffect(() => {      
+    useEffect(() => {
         if (deleteData.length !== 0) setShowDelBtn(true);
         else setShowDelBtn(false);
     }, [deleteData])
@@ -85,7 +87,8 @@ const WorkSpacePageDup = () => {
         <>
             {/* PROJECT */}
             <Container fluid="md" style={{ height: "50vh" }}>
-                <h1 onClick={handleToGo}>Project DUPLICATE</h1>
+                <GoArrowLeft onClick={() => handleToGo("/workspace")} />
+                <h1 onClick={() => handleToGo()}>Project DUPLICATE</h1>
                 <Row style={{ borderBottom: "1px solid gray", paddingBottom: "10px" }}>
                     <Col style={{ textAlign: "right" }}>
                         <Button variant="danger" onClick={() => { setAddProjectShow(true); setProject({}); }}>Add Project</Button>
@@ -135,10 +138,7 @@ const WorkSpacePageDup = () => {
                     {
                         variables.map((variable, index) => (
                             < Col xs lg="4" key={index} style={{ marginBottom: "10px" }}>
-                                <div style={{
-                                    backgroundColor: "grey", border: "1px solid grey", borderRadius: "10px", color: "black", padding: "10px",
-                                    display: "flex", alignItems: "center", justifyContent: "space-between"
-                                }}
+                                <div className='workspace-custom-btn'
                                     onClick={() => { setAddVaribleShow(true); setVariable(variable); }}>
                                     <Form.Label>{variable.name}</Form.Label>
                                     <Form.Check type='checkbox'

@@ -19,5 +19,30 @@
       "a",
       "b"
     ]
+  },
+  {
+    "id": 4,
+    "name": "test1",
+    "field_type": "date",
+    "description": "range"
+  },
+  {
+    "id": 5,
+    "name": "test2",
+    "field_type": "tag",
+    "description": [
+      "ssss",
+      "sdadsasd",
+      "asdasd",
+      "asda",
+      "sdasd",
+      "asd",
+      "asd",
+      "as",
+      "dasd",
+      "asd",
+      "as",
+      "dasdasd"
+    ]
   }
 ]

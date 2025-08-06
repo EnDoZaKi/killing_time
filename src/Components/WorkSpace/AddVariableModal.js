@@ -174,7 +174,7 @@ const AddVariableModal = (props) => {
                         ) : fieldType === "tag" ? (
                             <Form.Group>
                                 <Form.Label>Description</Form.Label>
-                                <AddTags value={descriptionTag} />
+                                <AddTags value={descriptionTag} onSendDataBack={(value) => setDescriptionTag(value)} />
                             </Form.Group>
                         ) : fieldType === "staff" ? (
                             <Form.Group>

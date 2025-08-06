@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -20,6 +20,10 @@ const AddTags = (props) => {
         const updatedTag = tagList.filter(item => item !== value);
         setTagList(updatedTag)
     }
+
+    useEffect(() => {
+        props.onSendDataBack(tagList)
+    }, [tagList, props])
 
     const TruncatedText = ({ text, className }) => {
         // State to track if the text is currently overflowing its container.

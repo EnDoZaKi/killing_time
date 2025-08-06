@@ -2,6 +2,7 @@
   {
     "id": 1,
     "name": "Project A",
+    "company_id": 1,
     "variable": [
       {
         "id": 1,
