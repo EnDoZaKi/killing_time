@@ -19,6 +19,13 @@
         "name": "tag",
         "checked": false
       }
+    ],
+    "fields": [
+      {
+        "name": "date",
+        "field_type": "specify",
+        "value": ""
+      }
     ]
   },
   {
@@ -38,6 +45,16 @@
       {
         "id": 3,
         "name": "tag",
+        "checked": true
+      },
+      {
+        "id": 4,
+        "name": "test1",
+        "checked": false
+      },
+      {
+        "id": 5,
+        "name": "test2",
         "checked": true
       }
     ]
@@ -59,6 +76,21 @@
       {
         "id": 3,
         "name": "tag",
+        "checked": true
+      },
+      {
+        "id": 4,
+        "name": "test1",
+        "checked": false
+      },
+      {
+        "id": 5,
+        "name": "test2",
+        "checked": false
+      },
+      {
+        "id": 6,
+        "name": "sssdasddddsadasdas",
         "checked": true
       }
     ]

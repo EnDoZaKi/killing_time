@@ -70,16 +70,30 @@ const WorkSpacePageDup = () => {
 
     const onclickDelete = async () => {
         console.log("want to delete::", deleteData);
-        try {
-            const res = await deleteFieldTypes({
-                data: deleteData
-            });
-            console.log("res:", res);
-            await handleVariableAdded();
+        const result = deleteData.map(del => {
+            const value = projects.some(project =>
+                project.variable.some(variable =>
+                    variable.id === del.id && variable.checked
+                )
+            );
+            return {
+                "project_name": del.name,
+                "is_use": value
+            }
+        })
 
-        } catch (err) {
-            console.error("Error fetching data:", err);
-        }
+        console.log("can DEL::", result);
+        
+        // try {
+        //     const res = await deleteFieldTypes({
+        //         data: deleteData
+        //     });
+        //     console.log("res:", res);
+        //     await handleVariableAdded();
+
+        // } catch (err) {
+        //     console.error("Error fetching data:", err);
+        // }
 
     }
 
@@ -106,8 +120,10 @@ const WorkSpacePageDup = () => {
                 <Row style={{ paddingTop: "10px", textAlign: "center" }}>
                     {
                         projects.map((project, index) => (
-                            < Col xs lg="3" key={index} style={{ marginBottom: "10px" }}>
-                                <Button variant="danger" onClick={() => { setAddProjectShow(true); setProject(project); }}>{project.name}</Button>
+                            < Col xs lg="4" key={index} style={{ marginBottom: "10px" }}>
+                                <div className='workspace-btn' onClick={() => { setAddProjectShow(true); setProject(project); }}>
+                                    {project.name}
+                                </div>
                             </Col>
                         ))
                     }
@@ -138,7 +154,7 @@ const WorkSpacePageDup = () => {
                     {
                         variables.map((variable, index) => (
                             < Col xs lg="4" key={index} style={{ marginBottom: "10px" }}>
-                                <div className='workspace-custom-btn'
+                                <div className='workspace-btn'
                                     onClick={() => { setAddVaribleShow(true); setVariable(variable); }}>
                                     <Form.Label>{variable.name}</Form.Label>
                                     <Form.Check type='checkbox'
