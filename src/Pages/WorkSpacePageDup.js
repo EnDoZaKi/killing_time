@@ -70,6 +70,9 @@ const WorkSpacePageDup = () => {
 
     const onclickDelete = async () => {
         console.log("want to delete::", deleteData);
+
+        // logic เช็คหาใน projects มีตัวที่ใช้งานอยู่ใน deleteData ไหม
+        // เริ่มจากทำให้รู้ก่อนว่าใน deleteData มีตัวไหนใช้หรือไม่ใช้
         const result = deleteData.map(del => {
             const value = projects.some(project =>
                 project.variable.some(variable =>
@@ -82,19 +85,27 @@ const WorkSpacePageDup = () => {
             }
         })
 
-        console.log("can DEL::", result);
+        // หลังจากได้ result ก็มาหาว่ามีตัวที่ใช้งานอยู่รึป่าว
+        const filteredArray = result.some(obj => obj.is_use)
+        // ถ้าใช้ return true
+        console.log(filteredArray);
         
-        // try {
-        //     const res = await deleteFieldTypes({
-        //         data: deleteData
-        //     });
-        //     console.log("res:", res);
-        //     await handleVariableAdded();
-
-        // } catch (err) {
-        //     console.error("Error fetching data:", err);
-        // }
-
+        // ไว้เช็คว่าไม่ได้ใช้งานอยู่
+        if (!filteredArray) {
+            // ต่อ backend เหมือนเดิม
+            try {
+                const res = await deleteFieldTypes({
+                    data: deleteData
+                });
+                console.log("res:", res);
+                await handleVariableAdded();
+    
+            } catch (err) {
+                console.error("Error fetching data:", err);
+            }
+        }else{
+            alert("Can't Remove! some field type has used")
+        }
     }
 
     return (
